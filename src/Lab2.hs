@@ -9,45 +9,49 @@ module Lab2 where
 -- ===================================
 
 toDigits :: Integer -> [Integer]
-toDigits = undefined
+toDigits n
+    | n >= 10   = toDigits (n `div` 10) ++ [n `mod` 10]
+    | n >= 0    = [n]
+    | otherwise = error "Must be a non-negative integer."
 
 -- ===================================
 -- Ex. 1
 -- ===================================
 
 toDigitsRev :: Integer -> [Integer]
-toDigitsRev = undefined
+toDigitsRev = reverse . toDigits
 
 -- ===================================
 -- Ex. 2
 -- ===================================
 
 doubleSecond :: [Integer] -> [Integer]
-doubleSecond = undefined
+doubleSecond []        = []
+doubleSecond [n]       = [n]
+doubleSecond (n:n':ns) = n:(2*n'):(doubleSecond ns)
 
 -- ===================================
 -- Ex. 3
 -- ===================================
 
 sumDigits :: [Integer] -> Integer
-sumDigits = undefined
-
+sumDigits []     = 0
+sumDigits (n:ns) = sum (toDigits n) + sumDigits ns
 
 -- ===================================
 -- Ex. 4
 -- ===================================
 
 isValid :: Integer -> Bool
-isValid = undefined
-
+isValid n = checksum n `mod` 10 == 0
+    where checksum = sumDigits . doubleSecond . toDigitsRev
 
 -- ===================================
 -- Ex. 5
 -- ===================================
-    
+
 numValid :: [Integer] -> Integer
 numValid xs = sum . map (\_ -> 1) $ filter isValid xs
-
 
 creditcards :: [Integer]
 creditcards = [ 4716347184862961,
